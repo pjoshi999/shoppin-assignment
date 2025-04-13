@@ -128,27 +128,27 @@ const TriggerInner = styled.div`
   border: 2px solid rgba(0, 0, 0, 0.1);
 `;
 
-const NoImagePlaceholder = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 32px;
-  color: rgba(255, 255, 255, 0.7);
-  height: 100%;
+// const NoImagePlaceholder = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   text-align: center;
+//   padding: 32px;
+//   color: rgba(255, 255, 255, 0.7);
+//   height: 100%;
 
-  svg {
-    font-size: 48px;
-    margin-bottom: 16px;
-    opacity: 0.8;
-  }
+//   svg {
+//     font-size: 48px;
+//     margin-bottom: 16px;
+//     opacity: 0.8;
+//   }
 
-  p {
-    max-width: 280px;
-    line-height: 1.4;
-  }
-`;
+//   p {
+//     max-width: 280px;
+//     line-height: 1.4;
+//   }
+// `;
 
 const LoadingOverlay = styled.div`
   position: absolute;
