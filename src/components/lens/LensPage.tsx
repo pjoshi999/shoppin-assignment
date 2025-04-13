@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ReactCrop, {
@@ -292,6 +292,19 @@ const LensPage: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchPhoto = async () => {
+      try {
+        const photo = await CameraService.takePhoto();
+        setCurrentImage(photo);
+      } catch (error) {
+        console.error("Failed to take photo:", error);
+      }
+    };
+
+    fetchPhoto();
+  }, []);
+
   const handleSelectFromGallery = async () => {
     try {
       const photo = await CameraService.selectFromGallery();
@@ -450,19 +463,20 @@ const LensPage: React.FC = () => {
               {currentImage?.webPath ? (
                 <img src={currentImage.webPath} alt="Selected" />
               ) : (
-                <NoImagePlaceholder>
-                  <svg
-                    width="48"
-                    height="48"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                  </svg>
-                  <p>
-                    Take a photo or select an image to search with Google Lens
-                  </p>
-                </NoImagePlaceholder>
+                <></>
+                // <NoImagePlaceholder>
+                //   <svg
+                //     width="48"
+                //     height="48"
+                //     viewBox="0 0 24 24"
+                //     fill="currentColor"
+                //   >
+                //     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                //   </svg>
+                //   <p>
+                //     Take a photo or select an image to search with Google Lens
+                //   </p>
+                // </NoImagePlaceholder>
               )}
             </ImagePreview>
           </LensViewport>
