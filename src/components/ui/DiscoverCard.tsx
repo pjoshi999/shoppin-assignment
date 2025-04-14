@@ -102,10 +102,6 @@ const ActionIconButton = styled.button`
   }
 `;
 
-// ============================================================
-// DiscoverCard Component Structure
-// ============================================================
-
 export interface DiscoverCardItem {
   id?: string;
   highlight?: {
@@ -159,7 +155,6 @@ const DiscoverCard: React.FC<{ item: DiscoverCardItem }> = ({ item }) => {
       target="_blank"
       rel="noopener noreferrer"
     >
-      {/* Image Section */}
       {(item.highlight?.thumbnail || item?.thumbnail) && (
         <CardImage
           src={item.highlight?.thumbnail || item?.thumbnail}
@@ -168,7 +163,6 @@ const DiscoverCard: React.FC<{ item: DiscoverCardItem }> = ({ item }) => {
         />
       )}
 
-      {/* Content Section */}
       <ContentWrapper>
         <Title>{item.highlight?.title || item?.title}</Title>
 

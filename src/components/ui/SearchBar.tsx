@@ -58,10 +58,6 @@ const SearchBar = () => {
     setShowVoiceUI(false);
   };
 
-  const handleSearchSong = () => {
-    // navigate("/song-search");
-  };
-
   const recentSearches = [
     "sleeveless gilet jacket men india",
     "sequins skirt less than 2000",
@@ -180,10 +176,7 @@ const SearchBar = () => {
             </div>
 
             <div className="w-full p-8 flex justify-center">
-              <button
-                onClick={handleSearchSong}
-                className="bg-[#202226] text-[#999ca0] rounded-full px-3 py-2 flex items-center border border-[#4f5256] text-sm"
-              >
+              <button className="bg-[#202226] text-[#999ca0] rounded-full px-3 py-2 flex items-center border border-[#4f5256] text-sm">
                 <svg
                   className="w-5 h-5 mr-2"
                   viewBox="0 0 24 24"
@@ -195,11 +188,6 @@ const SearchBar = () => {
               </button>
             </div>
           </div>
-
-          {/* <VoiceRecorder
-            onClose={() => setShowVoiceUI(false)}
-            onResult={handleVoiceResult}
-          /> */}
         </div>
       )}
 
@@ -221,7 +209,6 @@ const SearchBar = () => {
               />
             </svg>
 
-            {/* Search Input */}
             <input
               ref={inputRef}
               className="bg-[#2e3133] text-gray-100 text-base w-full outline-none border-none px-2"
@@ -237,7 +224,6 @@ const SearchBar = () => {
               autoFocus
             />
 
-            {/* Voice and Camera Icons */}
             <div className="flex items-center space-x-4 bg-[#2e3133]">
               <svg
                 className="w-6 h-6 text-gray-100 cursor-pointer"
@@ -288,17 +274,14 @@ const SearchBar = () => {
             ref={dropdownRef}
             className="bg-[#1f2125] rounded-b-xl shadow-lg mt-0 z-50 max-w-md mx-auto"
           >
-            {/* Header */}
             <div className="flex justify-between items-center px-4 py-2 text-[#9ea1a5] text-sm">
               <span className="">Recent searches</span>
               <span className="text-xs cursor-pointer">MANAGE HISTORY</span>
             </div>
 
-            {/* Search Items */}
             <div className="py-2">
               {searchTerm
-                ? // Show recommendations based on input
-                  getSearchRecommendations(searchTerm).map(
+                ? getSearchRecommendations(searchTerm).map(
                     (recommendation, index) => (
                       <div
                         key={index}

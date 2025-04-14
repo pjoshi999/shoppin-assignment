@@ -1,4 +1,3 @@
-// src/services/SpeechService.ts
 interface SpeechRecognitionEvent extends Event {
   results: SpeechRecognitionResultList;
 }

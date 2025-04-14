@@ -25,7 +25,7 @@ interface ApiResponse {
 const DiscoverFeed: React.FC = () => {
   const [data, setData] = useState<ApiResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  // const [error, setError] = useState<Error | null>(null);
 
   // Use mockData as fallback
   const feedItems = data?.news_results || mockDiscoverData;
@@ -33,26 +33,23 @@ const DiscoverFeed: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      setError(null);
+      // setError(null);
 
       try {
         // SerpAPI endpoint
-        const API_KEY =
-          "64878ca8257f3e94c5f7eff476ac9dd84631c452990b189dfb181c567fc9ecf9";
+        const API_KEY = import.meta.env.VITE_APP_SERP_API_KEY;
         const serpApiUrl = `https://serpapi.com/search.json?engine=google_news&gl=in&hl=en&api_key=${API_KEY}`;
 
-        // Visit https://cors-anywhere.herokuapp.com/corsdemo to get temporary access
+        // to get temporary access
         const corsProxy = "https://cors-anywhere.herokuapp.com/";
 
         const response = await axios.get(corsProxy + serpApiUrl);
-        console.log("API Response:", response.data);
         setData(response.data);
-      } catch (err) {
-        console.error("Error fetching data:", err);
-        setError(
-          err instanceof Error ? err : new Error("Unknown error occurred")
-        );
-        // We'll still continue and use mock data
+      } catch {
+        // console.error("Error fetching data:", err);
+        // setError(
+        //   err instanceof Error ? err : new Error("Unknown error occurred")
+        // );
       } finally {
         setIsLoading(false);
       }
@@ -63,7 +60,7 @@ const DiscoverFeed: React.FC = () => {
 
   return (
     <FeedContainer>
-      {error && <div>Error loading data: {error.message}</div>}
+      {/* {error && <div>Error loading data: {error.message}</div>} */}
       {isLoading && <div>Loading...</div>}
       {feedItems?.map((item, index) => {
         return (
