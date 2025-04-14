@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { theme } from "../config/theme";
 import SearchBar from "../components/ui/SearchBar";
@@ -53,7 +53,14 @@ const SearchContainer = styled.div`
 const QuickAccessContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  // margin-bottom: 24px;
+  gap: 3px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 interface IconButtonProps {
@@ -120,7 +127,7 @@ const CloseButton = styled.button`
   border: none;
   color: #e8eaed;
   cursor: pointer;
-  font-size: 24px;
+  font-size: 20px;
   padding: 0px;
   display: flex;
   align-items: center;
@@ -280,15 +287,14 @@ const GoogleAccountPopup: React.FC<GoogleAccountPopupProps> = ({
 }) => {
   const popupRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const navigate = useNavigate();
 
-  const scrollThreshold = 20; // Amount of scroll needed to trigger fullscreen
+  // Lower this threshold for easier testing
+  const scrollThreshold = 10;
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (
-        popupRef.current &&
-        !(popupRef.current as HTMLElement).contains(e.target as Node)
-      ) {
+      if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
         onClose();
       }
     };
@@ -302,37 +308,31 @@ const GoogleAccountPopup: React.FC<GoogleAccountPopupProps> = ({
     };
   }, [isOpen, onClose]);
 
-  // Replace your current handleScroll function with this:
-  const handleScroll = () => {
-    if (!popupRef.current) return;
+  // Use a more reliable approach for scroll detection
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!popupRef.current) return;
 
-    const scrollTop = popupRef.current.scrollTop;
-    console.log(
-      "Scrolling, position:",
-      scrollTop,
-      "threshold:",
-      scrollThreshold
-    );
+      const scrollTop = popupRef.current.scrollTop;
+      console.log(
+        "Scrolling, position:",
+        scrollTop,
+        "threshold:",
+        scrollThreshold
+      );
 
-    // Directly check scroll position against threshold
-    if (scrollTop > scrollThreshold) {
-      if (!isFullscreen) {
-        console.log("Expanding to fullscreen");
+      if (scrollTop > scrollThreshold) {
         setIsFullscreen(true);
-      }
-    } else {
-      if (isFullscreen) {
-        console.log("Shrinking from fullscreen");
+      } else {
         setIsFullscreen(false);
       }
-    }
-  };
+    };
 
-  useEffect(() => {
     const popupElement = popupRef.current;
-    if (popupElement) {
+    if (popupElement && isOpen) {
       console.log("Adding scroll listener");
-      popupElement.addEventListener("scroll", handleScroll);
+      // Use passive event listener for better performance
+      popupElement.addEventListener("scroll", handleScroll, { passive: true });
     }
 
     return () => {
@@ -341,16 +341,31 @@ const GoogleAccountPopup: React.FC<GoogleAccountPopupProps> = ({
         popupElement.removeEventListener("scroll", handleScroll);
       }
     };
-  }, [isFullscreen]);
+  }, [isOpen, scrollThreshold]); // Add dependencies to ensure it recreates when needed
 
   if (!isOpen) return null;
 
   return (
     <PopupOverlay>
       <PopupContainer ref={popupRef} isFullscreen={isFullscreen}>
+        {/* Add a debug indicator */}
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            right: 0,
+            background: "rgba(0,0,0,0.5)",
+            color: "white",
+            padding: "5px",
+            zIndex: 9999,
+          }}
+        >
+          Fullscreen: {isFullscreen ? "Yes" : "No"}
+        </div>
+
         <HeaderSection>
           <CloseButton onClick={onClose}>✕</CloseButton>
-          <GoogleLogo>
+          <GoogleLogo onClick={() => navigate("/")}>
             <img
               src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_272x92dp.png"
               alt=""
@@ -385,6 +400,7 @@ const GoogleAccountPopup: React.FC<GoogleAccountPopupProps> = ({
 
         <Divider />
 
+        {/* Rest of the component remains the same */}
         <MenuItem>
           <MenuIcon>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="#e8eaed">
@@ -561,17 +577,9 @@ const HomePage = () => {
       </LogoContainer>
 
       <SearchContainer>
-        <SearchBar
-        // searchTerm={searchTerm}
-        // setSearchTerm={setSearchTerm}
-        // onSearch={handleSearch}
-        // onMicClick={handleMicClick}
-        // onCameraClick={handleCameraClick}
-        />
+        <SearchBar />
 
-        {/* Quick Access Buttons */}
         <QuickAccessContainer>
-          {/* Finance/Charts Icon */}
           <IconButton bgColor="#4d4430">
             <IconWrapper iconColor="#f4c956">
               <svg
@@ -589,7 +597,6 @@ const HomePage = () => {
             </IconWrapper>
           </IconButton>
 
-          {/* Translate Icon */}
           <IconButton bgColor="#363f4e">
             <IconWrapper iconColor="#8ab4f8">
               <svg
@@ -607,7 +614,6 @@ const HomePage = () => {
             </IconWrapper>
           </IconButton>
 
-          {/* Education Icon */}
           <IconButton bgColor="#33423a">
             <IconWrapper iconColor="#81c995">
               <svg
@@ -625,7 +631,6 @@ const HomePage = () => {
             </IconWrapper>
           </IconButton>
 
-          {/* Music Icon */}
           <IconButton bgColor="#483034">
             <IconWrapper iconColor="#f28b82">
               <svg

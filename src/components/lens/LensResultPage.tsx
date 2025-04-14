@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 // Create a theme object since we no longer rely on imported theme
@@ -122,8 +122,9 @@ const Tab = styled.button<{ active: boolean }>`
 `;
 
 const ResultsList = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
   padding: 8px 16px;
 `;
 
@@ -192,53 +193,8 @@ const SourceLogo = styled.div`
   overflow: hidden;
 `;
 
-const ProductPrice = styled.div`
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  background-color: ${theme.colors.priceTag};
-  color: ${theme.colors.textPrimary};
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-`;
-
-const FeedbackBar = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  background-color: rgba(32, 33, 36, 0.9);
-  color: ${theme.colors.textPrimary};
-  z-index: 100;
-`;
-
-const FeedbackText = styled.div`
-  font-size: 14px;
-  flex: 1;
-`;
-
-const FeedbackButton = styled.button`
-  background: none;
-  border: none;
-  color: ${theme.colors.primary};
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-`;
-
-const CloseButton = styled.button`
-  background: none;
-  border: none;
-  color: ${theme.colors.textSecondary};
-  padding: 8px;
-  cursor: pointer;
+const Shimmer = styled.button`
+  background: gray;
 `;
 
 interface ResultItem {
@@ -256,7 +212,8 @@ const mockResults: ResultItem[] = [
   {
     id: "1",
     title: "Amazon.com: GuliriFei Women's Two Piece...",
-    image: "https://m.media-amazon.com/images/I/71JRQsKKONL._AC_UY1000_.jpg",
+    image:
+      "https://images.unsplash.com/photo-1575936123452-b67c3203c357?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D",
     link: "https://www.amazon.com",
     source: "Amazon.com",
     sourceLogo: "https://www.amazon.com/favicon.ico",
@@ -265,16 +222,16 @@ const mockResults: ResultItem[] = [
     id: "2",
     title: "Buy Trendyol Striped Cotton Top - Tops for Women",
     image:
-      "https://assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/12278548/2023/6/5/d4f6f175-3518-4a97-b7c3-87b71a75ff071685955560071-Trendyol-Women-Tops-2791685955559443-1.jpg",
+      "https://images.unsplash.com/photo-1575936123452-b67c3203c357?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D",
     link: "https://www.myntra.com",
     source: "Myntra",
     sourceLogo: "https://www.myntra.com/favicon.ico",
-    price: "₹659*",
   },
   {
     id: "3",
     title: "Purple Short Sleeve V-Neck Top",
-    image: "https://www.gap.com/webcontent/0052/752/084/cn52752084.jpg",
+    image:
+      "https://images.unsplash.com/photo-1575936123452-b67c3203c357?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D",
     link: "https://www.gap.com",
     source: "Gap",
     sourceLogo: "https://www.gap.com/favicon.ico",
@@ -283,9 +240,9 @@ const mockResults: ResultItem[] = [
 
 const LensResultsPage: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("all");
   const [results, setResults] = useState<ResultItem[]>([]);
-  const [showFeedback, setShowFeedback] = useState(true);
 
   // Get the image from the location state
   const { image } = location.state || {};
@@ -329,7 +286,7 @@ const LensResultsPage: React.FC = () => {
         </SearchBar>
         <AccountCircle>A</AccountCircle> */}
         <div className="flex items-center rounded-full px-4 relative w-full">
-          <GoogleLogo>
+          <GoogleLogo onClick={() => navigate("/")}>
             <svg width="24" height="24" viewBox="0 0 24 24">
               <path
                 fill="#4285F4"
@@ -403,18 +360,18 @@ const LensResultsPage: React.FC = () => {
           <ResultCard key={result.id}>
             <ResultImageContainer>
               <ResultImage src={result.image} alt={result.title} />
-              {result.price && <ProductPrice>{result.price}</ProductPrice>}
             </ResultImageContainer>
             <ResultContent>
               <ResultSource>
                 <SourceLogo>
                   {result.sourceLogo ? (
-                    <img
-                      src={result.sourceLogo}
-                      alt={result.source}
-                      width="16"
-                      height="16"
-                    />
+                    // <img
+                    //   src={result.sourceLogo}
+                    //   alt={result.source}
+                    //   width="16"
+                    //   height="16"
+                    // />
+                    <Shimmer></Shimmer>
                   ) : (
                     result.source.charAt(0)
                   )}
@@ -426,19 +383,6 @@ const LensResultsPage: React.FC = () => {
           </ResultCard>
         ))}
       </ResultsList>
-
-      {showFeedback && (
-        <FeedbackBar>
-          <FeedbackText>Are these results useful?</FeedbackText>
-          <FeedbackButton>Yes</FeedbackButton>
-          <FeedbackButton>No</FeedbackButton>
-          <CloseButton onClick={() => setShowFeedback(false)}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
-            </svg>
-          </CloseButton>
-        </FeedbackBar>
-      )}
     </ResultsContainer>
   );
 };

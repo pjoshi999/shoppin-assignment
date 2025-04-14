@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ReactCrop, {
@@ -10,7 +10,6 @@ import ReactCrop, {
 import "react-image-crop/dist/ReactCrop.css";
 import CameraService, { PhotoResult } from "../../services/CameraServices";
 
-// Enhanced styled components
 const LensContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -128,27 +127,27 @@ const TriggerInner = styled.div`
   border: 2px solid rgba(0, 0, 0, 0.1);
 `;
 
-// const NoImagePlaceholder = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   text-align: center;
-//   padding: 32px;
-//   color: rgba(255, 255, 255, 0.7);
-//   height: 100%;
+const NoImagePlaceholder = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 32px;
+  color: rgba(255, 255, 255, 0.7);
+  height: 100dvh;
 
-//   svg {
-//     font-size: 48px;
-//     margin-bottom: 16px;
-//     opacity: 0.8;
-//   }
+  svg {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.8;
+  }
 
-//   p {
-//     max-width: 280px;
-//     line-height: 1.4;
-//   }
-// `;
+  p {
+    max-width: 280px;
+    line-height: 1.4;
+  }
+`;
 
 const LoadingOverlay = styled.div`
   position: absolute;
@@ -291,19 +290,6 @@ const LensPage: React.FC = () => {
       console.error("Failed to take photo:", error);
     }
   };
-
-  useEffect(() => {
-    const fetchPhoto = async () => {
-      try {
-        const photo = await CameraService.takePhoto();
-        setCurrentImage(photo);
-      } catch (error) {
-        console.error("Failed to take photo:", error);
-      }
-    };
-
-    fetchPhoto();
-  }, []);
 
   const handleSelectFromGallery = async () => {
     try {
@@ -463,20 +449,19 @@ const LensPage: React.FC = () => {
               {currentImage?.webPath ? (
                 <img src={currentImage.webPath} alt="Selected" />
               ) : (
-                <></>
-                // <NoImagePlaceholder>
-                //   <svg
-                //     width="48"
-                //     height="48"
-                //     viewBox="0 0 24 24"
-                //     fill="currentColor"
-                //   >
-                //     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                //   </svg>
-                //   <p>
-                //     Take a photo or select an image to search with Google Lens
-                //   </p>
-                // </NoImagePlaceholder>
+                <NoImagePlaceholder>
+                  <svg
+                    width="48"
+                    height="48"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                  </svg>
+                  <p>
+                    Take a photo or select an image to search with Google Lens
+                  </p>
+                </NoImagePlaceholder>
               )}
             </ImagePreview>
           </LensViewport>
