@@ -4,7 +4,6 @@ import { mockDiscoverData } from "../../data/dummyFeed";
 import { theme } from "../../config/theme";
 import DiscoverCard, { DiscoverCardItem } from "./DiscoverCard";
 import axios from "axios";
-
 const FeedContainer = styled.div`
   width: 100%;
   max-width: 650px;
@@ -13,6 +12,10 @@ const FeedContainer = styled.div`
   flex-direction: column;
   gap: ${theme.spacing.md};
   padding-bottom: ${theme.spacing.xxl};
+
+  @media (min-width: 768px) {
+    display: none;
+  }
 `;
 
 interface ApiResponse {

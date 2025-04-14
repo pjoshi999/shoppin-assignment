@@ -206,7 +206,6 @@ const SearchBar = () => {
       {isFocused && !showVoiceUI && (
         <div className="h-screen w-screen bg-[#1f2125] absolute top-0 left-0 z-30 px-3 py-4">
           <div className="flex items-center bg-[#2e3133] rounded-full px-4 py-3 mb-2 relative">
-            {/* Back Button */}
             <svg
               className="w-6 h-6 text-[#9ea1a5] cursor-pointer"
               fill="none"
@@ -344,11 +343,11 @@ const SearchBar = () => {
           </div>
         </div>
       )}
-      <div className="w-full max-w-md mx-auto">
-        <div className="flex items-center bg-[#2e3133] rounded-full px-4 py-3 mb-2 relative">
+      <div className="w-full lg:max-w-xl max-w-md mx-auto">
+        <div className="flex items-center lg:bg-[#3f4454] bg-[#2e3133] rounded-full px-4 py-3 mb-2 relative">
           <input
             ref={inputRef}
-            className="bg-[#2e3133] text-gray-100 text-base w-full outline-none border-none px-2"
+            className="lg:bg-[#3f4454] bg-[#2e3133] text-gray-100 text-base w-full outline-none border-none px-2"
             placeholder="Search or type URL"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -360,7 +359,7 @@ const SearchBar = () => {
             }}
           />
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-4">
             <svg
               className="w-6 h-6 text-gray-100 cursor-pointer"
               viewBox="0 0 24 24"

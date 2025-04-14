@@ -1,8 +1,8 @@
 export default function GoogleApps() {
   return (
     <>
-      <hr className="border-[0.5px] border-[#4e4e4e] w-full mt-2" />
-      <div className="flex items-center gap-2 text-white w-full overflow-auto px-4 pt-3 -mb-4">
+      <hr className="border-[0.5px] border-[#4e4e4e] w-full mt-2 sm:hidden block" />
+      <div className="sm:hidden flex items-center gap-2 text-white w-full overflow-auto px-4 pt-3 -mb-4">
         <div className="border-[1px] border-[#424547] rounded-2xl px-3 py-2.5 flex flex-col justify-between min-w-[9.3rem]">
           <div className="text-gray-200 mb-2 text-[14px]">Gurugram</div>
           <div className="flex items-center justify-between">

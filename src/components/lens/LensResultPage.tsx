@@ -29,7 +29,7 @@ const ResultsContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
   background-color: ${theme.colors.background};
   color: ${theme.colors.textPrimary};
 `;

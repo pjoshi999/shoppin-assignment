@@ -11,9 +11,14 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100vw;
+  min-height: 100dvh;
   overflow: hidden;
   background-color: ${theme.colors.background};
   color: ${theme.colors.textPrimary};
+
+  @media (min-width: 768px) {
+    background-color: #101218;
+  }
 `;
 
 const Header = styled.header`
@@ -22,9 +27,9 @@ const Header = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: ${theme.spacing.lg} ${theme.spacing.lg};
-  position: sticky;
   top: 0;
   z-index: 10;
+  height: 8.5vh;
 `;
 
 // Container for the Google Logo
@@ -38,6 +43,12 @@ const LogoContainer = styled.div`
   font-size: 3.5rem;
   font-weight: 500;
   color: #4385f5;
+
+  @media (min-width: 768px) {
+    img {
+      height: 92px;
+    }
+  }
 `;
 
 // Container to constrain SearchBar width
@@ -48,6 +59,10 @@ const SearchContainer = styled.div`
   width: 100%;
   background-color: #202124;
   padding: 0px 16px;
+  @media (min-width: 768px) {
+    height: auto;
+    background-color: #101218;
+  }
 `;
 
 const QuickAccessContainer = styled.div`
@@ -59,6 +74,10 @@ const QuickAccessContainer = styled.div`
   -ms-overflow-style: none;
 
   &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
     display: none;
   }
 `;
@@ -116,7 +135,7 @@ const PopupContainer = styled.div<PopupContainerProps>`
     props.isFullscreen ? "none" : "0 4px 12px rgba(0, 0, 0, 0.3)"};
   color: #e8eaed;
   z-index: 101;
-  transition: all 0.3s ease; /* Ensure this is present for smooth transition */
+  transition: all 0.3s ease;
 `;
 
 const CloseButton = styled.button`
@@ -270,6 +289,20 @@ const FooterSection = styled.div`
   font-size: 14px;
 `;
 
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+
+  @media (min-width: 768px) {
+    height: 91dvh;
+    padding-bottom: 36dvh;
+  }
+`;
+
 const DotSeparator = styled.span`
   &::before {
     content: "•";
@@ -348,21 +381,6 @@ const GoogleAccountPopup: React.FC<GoogleAccountPopupProps> = ({
   return (
     <PopupOverlay>
       <PopupContainer ref={popupRef} isFullscreen={isFullscreen}>
-        {/* Add a debug indicator */}
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            right: 0,
-            background: "rgba(0,0,0,0.5)",
-            color: "white",
-            padding: "5px",
-            zIndex: 9999,
-          }}
-        >
-          Fullscreen: {isFullscreen ? "Yes" : "No"}
-        </div>
-
         <HeaderSection>
           <CloseButton onClick={onClose}>✕</CloseButton>
           <GoogleLogo onClick={() => navigate("/")}>
@@ -568,96 +586,98 @@ const HomePage = () => {
         />
       </Header>
 
-      <LogoContainer>
-        <img
-          src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_272x92dp.png"
-          alt=""
-          className="w-52 h-16"
+      <Container>
+        <LogoContainer>
+          <img
+            src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_272x92dp.png"
+            alt=""
+            className="w-52 h-16"
+          />
+        </LogoContainer>
+
+        <SearchContainer>
+          <SearchBar />
+
+          <QuickAccessContainer>
+            <IconButton bgColor="#4d4430">
+              <IconWrapper iconColor="#f4c956">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM9 17H7V10H9V17ZM13 17H11V7H13V17ZM17 17H15V13H17V17Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </IconWrapper>
+            </IconButton>
+
+            <IconButton bgColor="#363f4e">
+              <IconWrapper iconColor="#8ab4f8">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12.87 15.07L10.33 12.56L10.36 12.53C12.1 10.59 13.34 8.36 14.07 6H17V4H10V2H8V4H1V6H12.17C11.5 7.92 10.44 9.75 9 11.35C8.07 10.32 7.3 9.19 6.69 8H4.69C5.42 9.63 6.42 11.17 7.67 12.56L2.58 17.58L4 19L9 14L12.11 17.11L12.87 15.07ZM18.5 10H16.5L12 22H14L15.12 19H19.87L21 22H23L18.5 10ZM15.88 17L17.5 12.67L19.12 17H15.88Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </IconWrapper>
+            </IconButton>
+
+            <IconButton bgColor="#33423a">
+              <IconWrapper iconColor="#81c995">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 3L1 9L5 11.18V17.18L12 21L19 17.18V11.18L21 10.09V17H23V9L12 3ZM18.82 9L12 12.72L5.18 9L12 5.28L18.82 9ZM17 15.99L12 18.72L7 15.99V12.27L12 15L17 12.27V15.99Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </IconWrapper>
+            </IconButton>
+
+            <IconButton bgColor="#483034">
+              <IconWrapper iconColor="#f28b82">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 3V13.55C11.41 13.21 10.73 13 10 13C7.79 13 6 14.79 6 17C6 19.21 7.79 21 10 21C12.21 21 14 19.21 14 17V7H18V3H12ZM10 19C8.9 19 8 18.1 8 17C8 15.9 8.9 15 10 15C11.1 15 12 15.9 12 17C12 18.1 11.1 19 10 19Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </IconWrapper>
+            </IconButton>
+          </QuickAccessContainer>
+        </SearchContainer>
+
+        <GoogleApps />
+        <DiscoverFeed />
+
+        {/* Google Account Popup */}
+        <GoogleAccountPopup
+          isOpen={showAccountPopup}
+          onClose={() => setShowAccountPopup(false)}
         />
-      </LogoContainer>
-
-      <SearchContainer>
-        <SearchBar />
-
-        <QuickAccessContainer>
-          <IconButton bgColor="#4d4430">
-            <IconWrapper iconColor="#f4c956">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM9 17H7V10H9V17ZM13 17H11V7H13V17ZM17 17H15V13H17V17Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </IconWrapper>
-          </IconButton>
-
-          <IconButton bgColor="#363f4e">
-            <IconWrapper iconColor="#8ab4f8">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12.87 15.07L10.33 12.56L10.36 12.53C12.1 10.59 13.34 8.36 14.07 6H17V4H10V2H8V4H1V6H12.17C11.5 7.92 10.44 9.75 9 11.35C8.07 10.32 7.3 9.19 6.69 8H4.69C5.42 9.63 6.42 11.17 7.67 12.56L2.58 17.58L4 19L9 14L12.11 17.11L12.87 15.07ZM18.5 10H16.5L12 22H14L15.12 19H19.87L21 22H23L18.5 10ZM15.88 17L17.5 12.67L19.12 17H15.88Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </IconWrapper>
-          </IconButton>
-
-          <IconButton bgColor="#33423a">
-            <IconWrapper iconColor="#81c995">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 3L1 9L5 11.18V17.18L12 21L19 17.18V11.18L21 10.09V17H23V9L12 3ZM18.82 9L12 12.72L5.18 9L12 5.28L18.82 9ZM17 15.99L12 18.72L7 15.99V12.27L12 15L17 12.27V15.99Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </IconWrapper>
-          </IconButton>
-
-          <IconButton bgColor="#483034">
-            <IconWrapper iconColor="#f28b82">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 3V13.55C11.41 13.21 10.73 13 10 13C7.79 13 6 14.79 6 17C6 19.21 7.79 21 10 21C12.21 21 14 19.21 14 17V7H18V3H12ZM10 19C8.9 19 8 18.1 8 17C8 15.9 8.9 15 10 15C11.1 15 12 15.9 12 17C12 18.1 11.1 19 10 19Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </IconWrapper>
-          </IconButton>
-        </QuickAccessContainer>
-      </SearchContainer>
-
-      <GoogleApps />
-      <DiscoverFeed />
-
-      {/* Google Account Popup */}
-      <GoogleAccountPopup
-        isOpen={showAccountPopup}
-        onClose={() => setShowAccountPopup(false)}
-      />
+      </Container>
     </PageContainer>
   );
 };
